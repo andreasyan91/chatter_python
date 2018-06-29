@@ -4,7 +4,7 @@ from threading import Thread
 import Tkinter
 
 HOST = 'localhost'
-PORT = 33002
+PORT = 33003
 
 BUFSIZ = 1024
 ADDR = (HOST, PORT)

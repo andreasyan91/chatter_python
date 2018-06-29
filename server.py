@@ -14,19 +14,17 @@ class msg_server(Thread):
 
     def accept_incoming_connections(self):
         while True:
-            print "Waiting for connection"
             connection, client_address = SERVER.accept()
             print client_address, "connect\n"
             connection.send(bytes("Hello! Type your name and press enter!"))
             self.address[connection] = client_address
             Thread(target = self.msg_send, args =(connection,)).start()
-
             Thread(target=self.handle_client, args=(connection,)).start()
-            #Thread(target = self.msg_send)
 
     def msg_send(self, client):
-        server_message = "Server: " + raw_input()
-        client.send(bytes(server_message))
+        while True:
+            server_message = "Server: " + raw_input()
+            client.send(bytes(server_message))
 
     def handle_client(self,client):
         name = client.recv(BUFSIZ)
@@ -44,7 +42,6 @@ class msg_server(Thread):
                 client.close()
                 del self.clients[client]
                 break
-        #Thread(target = self.msg_send)
     
     def msg_run(self):
         SERVER.bind(SERVER_ADDRESS)
